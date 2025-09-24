@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MetaAds AI Creator - Tu Asistente Inteligente para Campañas Ganadoras</title>
+    <link rel="stylesheet" href="style.css">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div id="authOverlay" class="auth-overlay">
+        <div class="auth-card">
+            <div class="auth-header">
+                <h2 id="authTitle">Bienvenido a MetaAds AI Creator</h2>
+                <p id="authSubtitle">Registra tu cuenta para comenzar a crear campanas inteligentes.</p>
+            </div>
+            <div class="auth-message" id="authMessage" hidden></div>
+            <form id="authForm" class="auth-form" autocomplete="on" novalidate>
+                <div class="auth-field auth-field--name">
+                    <label class="form-label" for="fullName">Nombre completo</label>
+                    <input type="text" id="fullName" name="fullName" class="form-control" placeholder="Ingresa tu nombre" autocomplete="name" required>
+                </div>
+                <div class="auth-field">
+                    <label class="form-label" for="email">Correo electronico</label>
+                    <input type="email" id="email" name="email" class="form-control" placeholder="tu@email.com" autocomplete="email" required>
+                </div>
+                <div class="auth-field">
+                    <label class="form-label" for="password">Contrasena</label>
+                    <input type="password" id="password" name="password" class="form-control" placeholder="Ingresa tu contrasena" minlength="6" autocomplete="new-password" required>
+                </div>
+                <div class="auth-agreement" id="termsContainer">
+                    <input type="checkbox" id="terms" required>
+                    <label for="terms">Acepto los terminos y condiciones de uso</label>
+                </div>
+                <button type="submit" class="btn btn--primary btn--lg auth-submit" id="authSubmitBtn">Crear cuenta y continuar</button>
+            </form>
+            <div class="auth-switch">
+                <span id="authSwitchText">Ya tienes cuenta?</span>
+                <button type="button" class="auth-switch-btn" id="authSwitchBtn">Iniciar sesion</button>
+            </div>
+        </div>
+    </div>
+    <!-- Navigation -->
+    <nav class="navbar" hidden>
+        <div class="container">
+            <div class="nav-brand">
+                <i class="fab fa-meta" style="color: #1877F2; margin-right: 8px;"></i>
+                <h2>MetaAds AI Creator</h2>
+            </div>
+            <div class="nav-menu" id="navMenu">
+                <a href="#home" class="nav-link active">Inicio</a>
+                <a href="#dashboard" class="nav-link">Dashboard</a>
+                <a href="#biblioteca" class="nav-link">Biblioteca</a>
+            </div>
+            <div class="nav-user" id="navUser" hidden>
+                <button class="nav-user-toggle" id="userMenuToggle" type="button" aria-haspopup="true" aria-expanded="false">
+                    <i class="fas fa-user-circle"></i>
+                    <span id="userNameDisplay"></span>
+                    <i class="fas fa-chevron-down toggle-icon"></i>
+                </button>
+                <div class="nav-user-menu" id="userMenu" hidden>
+                    <div class="nav-user-menu__meta">
+                        <div class="nav-user-menu__name" id="userMenuName"></div>
+                        <div class="nav-user-menu__email" id="userMenuEmail"></div>
+                    </div>
+                    <hr class="nav-user-menu__divider">
+                    <button class="nav-user-menu__item" id="logoutButton" type="button">
+                        <i class="fas fa-right-from-bracket"></i>
+                        <span>Cerrar sesion</span>
+                    </button>
+                </div>
+            </div>
+            <div class="nav-toggle" id="navToggle">
+                <span></span>
+                <span></span>
+                <span></span>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main App Container -->
+    <main id="app" hidden>
+        <!-- Home Section -->
+        <section id="home" class="section active">
+            <div class="container">
+                <div class="hero">
+                    <h1 class="hero-title">MetaAds AI Creator</h1>
+                    <p class="hero-subtitle">Tu Asistente Inteligente para Campañas Ganadoras</p>
+                    
+                    <div class="hero-benefits">
+                        <div class="benefit-card">
+                            <i class="fas fa-magic"></i>
+                            <h3>Genera creativos con IA</h3>
+                            <p>Creativos únicos y optimizados automáticamente</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-target"></i>
+                            <h3>Configura campañas</h3>
+                            <p>Audiencias inteligentes y presupuestos optimizados</p>
+                        </div>
+                        <div class="benefit-card">
+                            <i class="fas fa-chart-line"></i>
+                            <h3>Optimiza resultados</h3>
+                            <p>Sugerencias automáticas basadas en datos</p>
+                        </div>
+                    </div>
+
+                    <button class="btn btn--primary btn--lg cta-button" id="createCampaignBtn">
+                        <i class="fas fa-rocket"></i> Crear Mi Primera Campaña
+                    </button>
+                </div>
+
+                <!-- Features Grid -->
+                <div class="features-section">
+                    <h2>Funcionalidades Principales</h2>
+                    <div class="features-grid">
+                        <div class="feature-card">
+                            <div class="feature-icon">🎯</div>
+                            <h3>Objetivos Inteligentes</h3>
+                            <p>Selecciona entre 6 objetivos optimizados con recomendaciones de presupuesto automáticas</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">👥</div>
+                            <h3>Audiencias Precisas</h3>
+                            <p>Segmentación avanzada con intereses, demografía y comportamientos de compra</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">🤖</div>
+                            <h3>IA Generativa</h3>
+                            <p>Creativos automáticos con múltiples variaciones y copy optimizado</p>
+                        </div>
+                        <div class="feature-card">
+                            <div class="feature-icon">📊</div>
+                            <h3>Analytics Avanzados</h3>
+                            <p>Métricas en tiempo real con sugerencias de optimización inteligentes</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Campaign Creator Section -->
+        <section id="campaign-creator" class="section">
+            <div class="container">
+                <div class="campaign-header">
+                    <button class="back-btn" id="backToHome">
+                        <i class="fas fa-arrow-left"></i> Volver
+                    </button>
+                    <h2>Crear Nueva Campaña</h2>
+                </div>
+
+                <!-- Progress Stepper -->
+                <div class="stepper">
+                    <div class="step active" data-step="1">
+                        <div class="step-number">1</div>
+                        <span>Objetivo</span>
+                    </div>
+                    <div class="step" data-step="2">
+                        <div class="step-number">2</div>
+                        <span>Audiencia</span>
+                    </div>
+                    <div class="step" data-step="3">
+                        <div class="step-number">3</div>
+                        <span>Creativos</span>
+                    </div>
+                    <div class="step" data-step="4">
+                        <div class="step-number">4</div>
+                        <span>Preview</span>
+                    </div>
+                </div>
+
+                <!-- Step Content -->
+                <div class="step-content">
+                    <!-- Step 1: Campaign Objective -->
+                    <div class="step-panel active" id="step-1">
+                        <h3>Selecciona el Objetivo de tu Campaña</h3>
+                        <div class="objectives-grid" id="objectivesGrid">
+                            <!-- Objectives will be populated by JavaScript -->
+                        </div>
+                        <div class="objective-details" id="objectiveDetails">
+                            <p>Selecciona un objetivo para ver más detalles y recomendaciones</p>
+                        </div>
+                    </div>
+
+                    <!-- Step 2: Audience Configuration -->
+                    <div class="step-panel" id="step-2">
+                        <h3>Configura tu Audiencia</h3>
+                        <div class="audience-config">
+                            <div class="config-section">
+                                <h4><i class="fas fa-users"></i> Demografía</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Edad</label>
+                                        <div class="age-range">
+                                            <input type="range" id="ageMin" min="13" max="65" value="18" class="age-slider">
+                                            <input type="range" id="ageMax" min="13" max="65" value="55" class="age-slider">
+                                            <div class="age-display">
+                                                <span id="ageMinDisplay">18</span> - <span id="ageMaxDisplay">55</span> años
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Género</label>
+                                        <div class="checkbox-group">
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" value="all" id="genderAll" checked>
+                                                <span>Todos</span>
+                                            </label>
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" value="male" id="genderMale">
+                                                <span>Hombres</span>
+                                            </label>
+                                            <label class="checkbox-item">
+                                                <input type="checkbox" value="female" id="genderFemale">
+                                                <span>Mujeres</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="config-section">
+                                <h4><i class="fas fa-heart"></i> Intereses</h4>
+                                <div class="interests-container" id="interestsContainer">
+                                    <!-- Interests will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <div class="config-section">
+                                <h4><i class="fas fa-dollar-sign"></i> Presupuesto</h4>
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Tipo de presupuesto</label>
+                                        <select class="form-control" id="budgetType">
+                                            <option value="daily">Diario</option>
+                                            <option value="lifetime">Total de campaña</option>
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Cantidad (USD)</label>
+                                        <input type="number" class="form-control" id="budgetAmount" min="5" value="25" placeholder="25">
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 3: Creative Generation -->
+                    <div class="step-panel" id="step-3">
+                        <h3>Genera Creativos con IA</h3>
+                        <div class="creative-config">
+                            <div class="config-section">
+                                <h4><i class="fas fa-upload"></i> Información del Producto</h4>
+                                <div class="product-upload">
+                                    <div class="upload-area" id="uploadArea">
+                                        <i class="fas fa-cloud-upload-alt"></i>
+                                        <p>Arrastra imágenes aquí o haz clic para seleccionar</p>
+                                        <input type="file" id="productImages" multiple accept="image/*" style="display: none;">
+                                        <button class="btn btn--secondary" onclick="document.getElementById('productImages').click()">Seleccionar Imágenes</button>
+                                    </div>
+                                    <div class="uploaded-images" id="uploadedImages"></div>
+                                </div>
+                                
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Nombre del producto</label>
+                                        <input type="text" class="form-control" id="productName" placeholder="Ej: Zapatillas deportivas premium">
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Precio</label>
+                                        <input type="number" class="form-control" id="productPrice" placeholder="99" step="0.01">
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="form-label">Descripción del producto</label>
+                                    <textarea class="form-control" id="productDescription" rows="3" placeholder="Describe las características principales y beneficios de tu producto..."></textarea>
+                                </div>
+
+                                <div class="form-row">
+                                    <div class="form-group">
+                                        <label class="form-label">Call-to-Action</label>
+                                        <select class="form-control" id="ctaSelect">
+                                            <!-- CTAs will be populated by JavaScript -->
+                                        </select>
+                                    </div>
+                                    <div class="form-group">
+                                        <label class="form-label">Tono de voz</label>
+                                        <select class="form-control" id="toneSelect">
+                                            <option value="professional">Profesional</option>
+                                            <option value="casual">Casual</option>
+                                            <option value="urgent">Urgente</option>
+                                            <option value="friendly">Amigable</option>
+                                            <option value="luxury">Premium/Lujo</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="config-section">
+                                <h4><i class="fas fa-palette"></i> Estilo Visual</h4>
+                                <div class="style-selector" id="styleSelector">
+                                    <!-- Styles will be populated by JavaScript -->
+                                </div>
+                            </div>
+
+                            <button class="btn btn--primary generate-btn" id="generateCreatives">
+                                <i class="fas fa-magic"></i> Generar Creativos con IA
+                            </button>
+
+                            <div class="generated-creatives" id="generatedCreatives">
+                                <!-- Generated creatives will appear here -->
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Step 4: Preview -->
+                    <div class="step-panel" id="step-4">
+                        <h3>Preview de la Campaña</h3>
+                        <div class="campaign-preview">
+                            <div class="preview-content">
+                                <div class="preview-section">
+                                    <h4><i class="fas fa-target"></i> Resumen de Campaña</h4>
+                                    <div class="campaign-summary" id="campaignSummary">
+                                        <!-- Campaign summary will be populated -->
+                                    </div>
+                                </div>
+
+                                <div class="preview-section">
+                                    <h4><i class="fas fa-chart-bar"></i> Estimaciones de Rendimiento</h4>
+                                    <div class="performance-estimates">
+                                        <div class="estimate-card">
+                                            <div class="estimate-value" id="estimatedReach">-</div>
+                                            <div class="estimate-label">Alcance Estimado</div>
+                                        </div>
+                                        <div class="estimate-card">
+                                            <div class="estimate-value" id="estimatedCPM">-</div>
+                                            <div class="estimate-label">CPM Estimado</div>
+                                        </div>
+                                        <div class="estimate-card">
+                                            <div class="estimate-value" id="estimatedClicks">-</div>
+                                            <div class="estimate-label">Clics Estimados</div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                <div class="preview-section">
+                                    <h4><i class="fas fa-check-circle"></i> Checklist de Optimización</h4>
+                                    <div class="optimization-checklist" id="optimizationChecklist">
+                                        <!-- Checklist will be populated -->
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="preview-actions">
+                                <button class="btn btn--secondary" id="backToEdit">Editar Campaña</button>
+                                <button class="btn btn--primary btn--lg" id="launchCampaign">
+                                    <i class="fas fa-rocket"></i> Lanzar Campaña
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Navigation Buttons -->
+                <div class="step-navigation">
+                    <button class="btn btn--secondary" id="prevStep" style="display: none;">
+                        <i class="fas fa-arrow-left"></i> Anterior
+                    </button>
+                    <button class="btn btn--primary" id="nextStep">
+                        Siguiente <i class="fas fa-arrow-right"></i>
+                    </button>
+                </div>
+            </div>
+        </section>
+
+        <!-- Dashboard Section -->
+        <section id="dashboard" class="section">
+            <div class="container">
+                <div class="dashboard-header">
+                    <h2>Dashboard de Campañas</h2>
+                    <button class="btn btn--primary" id="newCampaignBtn">
+                        <i class="fas fa-plus"></i> Nueva Campaña
+                    </button>
+                </div>
+
+                <!-- Campaign Stats Overview -->
+                <div class="stats-overview">
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalCampaigns">3</div>
+                        <div class="stat-label">Campañas Activas</div>
+                        <div class="stat-change positive">+2 este mes</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalSpend">$150</div>
+                        <div class="stat-label">Gasto Total</div>
+                        <div class="stat-change positive">+$45 esta semana</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="totalImpressions">26.6K</div>
+                        <div class="stat-label">Impresiones</div>
+                        <div class="stat-change positive">+15% vs semana anterior</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-value" id="avgCTR">6.8%</div>
+                        <div class="stat-label">CTR Promedio</div>
+                        <div class="stat-change positive">+1.2% vs promedio</div>
+                    </div>
+                </div>
+
+                <!-- Performance Chart -->
+                <div class="chart-section">
+                    <h3>Rendimiento de Campañas</h3>
+                    <div class="chart-container" style="position: relative; height: 300px;">
+                        <canvas id="performanceChart"></canvas>
+                    </div>
+                </div>
+
+                <!-- Campaigns Table -->
+                <div class="campaigns-section">
+                    <h3>Mis Campañas</h3>
+                    <div class="campaigns-table" id="campaignsTable">
+                        <!-- Table will be populated by JavaScript -->
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Biblioteca Section -->
+        <section id="biblioteca" class="section">
+            <div class="container">
+                <h2>Biblioteca de Recursos</h2>
+                
+                <div class="biblioteca-tabs">
+                    <button class="tab-btn active" data-tab="templates">Plantillas</button>
+                    <button class="tab-btn" data-tab="creatives">Creativos</button>
+                    <button class="tab-btn" data-tab="tips">Mejores Prácticas</button>
+                </div>
+
+                <div class="biblioteca-content">
+                    <div class="tab-content active" id="templates-tab">
+                        <h3>Plantillas de Campañas Exitosas</h3>
+                        <div class="templates-grid">
+                            <div class="template-card">
+                                <h4>E-commerce Estándar</h4>
+                                <p>Optimizada para conversiones de tienda online</p>
+                                <div class="template-stats">
+                                    <span>ROAS: 4.2x</span>
+                                    <span>CTR: 7.1%</span>
+                                </div>
+                                <button class="btn btn--secondary">Usar Plantilla</button>
+                            </div>
+                            <div class="template-card">
+                                <h4>Generación de Leads</h4>
+                                <p>Para captura de clientes potenciales B2B</p>
+                                <div class="template-stats">
+                                    <span>CPL: $12</span>
+                                    <span>CVR: 15%</span>
+                                </div>
+                                <button class="btn btn--secondary">Usar Plantilla</button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="creatives-tab">
+                        <h3>Biblioteca de Creativos</h3>
+                        <div class="creatives-gallery">
+                            <div class="creative-item">
+                                <div class="creative-placeholder">
+                                    <i class="fas fa-image"></i>
+                                    <p>Ejemplo Creativo #1</p>
+                                </div>
+                            </div>
+                            <div class="creative-item">
+                                <div class="creative-placeholder">
+                                    <i class="fas fa-image"></i>
+                                    <p>Ejemplo Creativo #2</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="tab-content" id="tips-tab">
+                        <h3>Mejores Prácticas</h3>
+                        <div class="tips-content">
+                            <div class="tip-card">
+                                <h4><i class="fas fa-lightbulb"></i> Segmentación de Audiencias</h4>
+                                <ul>
+                                    <li>Comienza con audiencias amplias y deja que el algoritmo optimice</li>
+                                    <li>Usa audiencias similares basadas en tus mejores clientes</li>
+                                    <li>Prueba diferentes rangos de edad para encontrar el sweet spot</li>
+                                </ul>
+                            </div>
+                            <div class="tip-card">
+                                <h4><i class="fas fa-chart-line"></i> Optimización de Creativos</h4>
+                                <ul>
+                                    <li>Prueba múltiples creativos simultáneamente</li>
+                                    <li>Usa testimonios y prueba social</li>
+                                    <li>Incluye precios claros y calls-to-action directos</li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Success Modal -->
+        <div class="modal hidden" id="successModal">
+            <div class="modal-backdrop"></div>
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="success-icon">
+                        <i class="fas fa-check-circle"></i>
+                    </div>
+                    <h3>¡Campaña Creada Exitosamente!</h3>
+                    <p>Tu campaña ha sido configurada y está lista para generar resultados.</p>
+                    <div class="modal-actions">
+                        <button class="btn btn--secondary" id="createAnother">Crear Otra</button>
+                        <button class="btn btn--primary" id="goToDashboard">Ver Dashboard</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        window.SUPABASE_URL = window.SUPABASE_URL || 'https://TU-PROYECTO.supabase.co';
+        window.SUPABASE_ANON_KEY = window.SUPABASE_ANON_KEY || 'SUPABASE_ANON_KEY';
+    </script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.48.0/dist/umd/supabase.min.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
