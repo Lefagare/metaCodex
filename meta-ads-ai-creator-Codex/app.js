@@ -2187,7 +2187,9 @@ document.addEventListener('click', function(e) {
 window.showSection = showSection;
 window.removeImage = removeImage;
 
-console.log('MetaAds AI Creator loaded successfully');
+console.log('MetaAds AI Creator loaded successfully'); 
+
+
 
 
 
