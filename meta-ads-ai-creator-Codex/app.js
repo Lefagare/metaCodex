@@ -223,7 +223,7 @@ function buildProfileFromSupabaseUser(user) {
     }
 
     const meta = user.user_metadata || {};
-    const fullName = meta.full_name || (user.email ? user.email\.split('@')[0] : 'Usuario');
+    const fullName = meta.full_name || (user.email ? user.email.split('@')[0] : 'Usuario');
 
     return {
         id: user.id,
@@ -791,7 +791,7 @@ function getFirstName(fullName) {
         return 'Usuario';
     }
 
-    const segments = fullName.trim()\.split(/\s+/);
+    const segments = fullName.trim().split(/\s+/);
     return segments.length ? segments[0] : 'Usuario';
 }
 document.addEventListener('DOMContentLoaded', function() {
@@ -1393,7 +1393,7 @@ async function uploadImageToSupabase(file, imageId) {
     }
 
     const bucket = 'campaign-assets';
-    const extension = file.name.includes('.') ? file.name\.split('.').pop() : 'png';
+    const extension = file.name.includes('.') ? file.name.split('.').pop() : 'png';
     const sanitizedExtension = extension.replace(/[^a-zA-Z0-9]/g, '') || 'png';
     const filePath = `${currentUserProfile.id}/${Date.now()}-${imageId}.${sanitizedExtension}`;
 
@@ -1408,7 +1408,19 @@ async function uploadImageToSupabase(file, imageId) {
     }
 
     const { data } = supabaseClient.storage.from(bucket).getPublicUrl(filePath);
-    return data?.publicUrl || null;\r\n}\r\n\r\nfunction getCreativeImageSource(index) {\r\n    const imageRecord = campaignData.creative.images[index];\r\n    if (!imageRecord) {\r\n        return null;\r\n    }\r\n    return imageRecord.publicUrl || imageRecord.previewUrl || null;\r\n}\r\n\r\nfunction generateCreatives() {
+    return data?.publicUrl || null;
+}
+
+function getCreativeImageSource(index) {
+    const imageRecord = campaignData.creative.images[index];
+    if (!imageRecord) {
+        return null;
+    }
+
+    return imageRecord.publicUrl || imageRecord.previewUrl || null;
+}
+
+function generateCreatives() {
     console.log('Generating creatives...');
     const generateBtn = document.getElementById('generateCreatives');
     const generatedCreatives = document.getElementById('generatedCreatives');
@@ -1822,7 +1834,7 @@ async function saveCampaign() {
     const fallback = {
         id: Date.now(),
         ...baseCampaign,
-        created_date: new Date().toISOString()\.split('T')[0]
+        created_date: new Date().toISOString().split('T')[0]
     };
 
     addCampaignToStore(fallback);
@@ -1873,7 +1885,7 @@ function mapSupabaseCampaign(record) {
         clicks: Number(record.clicks) || 0,
         ctr: typeof record.ctr === 'number' ? record.ctr : Number(record.ctr || 0),
         roas: typeof record.roas === 'number' ? record.roas : Number(record.roas || 0),
-        created_date: record.created_at ? record.created_at\.split('T')[0] : new Date().toISOString()\.split('T')[0],
+        created_date: record.created_at ? record.created_at.split('T')[0] : new Date().toISOString().split('T')[0],
         details: record.details || null
     };
 }
@@ -1997,7 +2009,7 @@ function loadCampaignsTable() {
         const ctrValue = typeof campaign.ctr === 'number' ? campaign.ctr : Number(campaign.ctr || 0);
         const roasValue = typeof campaign.roas === 'number' ? campaign.roas : Number(campaign.roas || 0);
         const budgetValue = Number(campaign.budget || 0);
-        const createdDate = campaign.created_date || (campaign.created_at ? campaign.created_at\.split('T')[0] : new Date().toISOString()\.split('T')[0]);
+        const createdDate = campaign.created_date || (campaign.created_at ? campaign.created_at.split('T')[0] : new Date().toISOString().split('T')[0]);
 
         return `
             <tr>
@@ -2188,6 +2200,16 @@ window.showSection = showSection;
 window.removeImage = removeImage;
 
 console.log('MetaAds AI Creator loaded successfully'); 
+
+
+
+
+
+
+
+
+
+
 
 
 
