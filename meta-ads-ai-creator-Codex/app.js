@@ -1,4 +1,5 @@
-﻿const AUTH_STORAGE_KEY = 'metaAdsUserProfile';
+const AUTH_STORAGE_KEY = 'metaAdsUserProfile';
+
 const SUPABASE_CONFIG = {
     url: typeof window !== 'undefined' ? (window.SUPABASE_URL || '').trim() : '',
     anonKey: typeof window !== 'undefined' ? (window.SUPABASE_ANON_KEY || '').trim() : ''
@@ -622,6 +623,7 @@ async function handleSupabaseAuthSubmit(event) {
 function handleLocalRegistrationSubmit(event) {
     event.preventDefault();
     const form = event.target;
+    clearAuthMessage();
 
     if (authMode === 'login') {
         setAuthMessage('El modo sin Supabase solo permite registro local.', 'info');
@@ -629,16 +631,44 @@ function handleLocalRegistrationSubmit(event) {
         return;
     }
 
-    if (typeof form.checkValidity === 'function' && !form.checkValidity()) {
-        form.reportValidity();
+    const fullName = (form.fullName?.value || '').trim();
+    const email = (form.email?.value || '').trim().toLowerCase();
+    const password = form.password?.value || '';
+    const termsCheckbox = document.getElementById('terms');
+
+    if (!fullName) {
+        setAuthMessage('Ingresa tu nombre completo.', 'error');
+        form.fullName?.focus();
         return;
     }
 
-    const fullName = (form.fullName?.value || '').trim();
-    const email = (form.email?.value || '').trim().toLowerCase();
+    if (!email) {
+        setAuthMessage('Ingresa un correo electronico valido.', 'error');
+        form.email?.focus();
+        return;
+    }
 
-    if (!fullName || !email) {
-        setAuthMessage('Completa tu nombre y correo para continuar.', 'error');
+    if (!password || password.length < 6) {
+        setAuthMessage('Ingresa una contrasena de al menos 6 caracteres.', 'error');
+        form.password?.focus();
+        return;
+    }
+
+    if (termsCheckbox && !termsCheckbox.checked) {
+        setAuthMessage('Debes aceptar los terminos y condiciones.', 'error');
+        termsCheckbox.focus();
+        return;
+    }
+
+    if (typeof form.checkValidity === 'function' && !form.checkValidity()) {
+        if (typeof form.reportValidity === 'function') {
+            form.reportValidity();
+        } else {
+            const firstInvalid = form.querySelector(':invalid');
+            if (firstInvalid) {
+                firstInvalid.focus();
+            }
+        }
         return;
     }
 
@@ -657,6 +687,9 @@ function handleLocalRegistrationSubmit(event) {
     currentUserProfile = profile;
     completeAuthentication(profile);
     form.reset();
+    if (termsCheckbox) {
+        termsCheckbox.checked = false;
+    }
 }
 
 function lockAppForRegistration() {
@@ -2155,7 +2188,6 @@ window.showSection = showSection;
 window.removeImage = removeImage;
 
 console.log('MetaAds AI Creator loaded successfully');
-
 
 
 
