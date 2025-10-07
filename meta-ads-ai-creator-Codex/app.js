@@ -1,7 +1,4 @@
 ﻿const AUTH_STORAGE_KEY = 'metaAdsUserProfile';
-const SUPABASE_PLACEHOLDER_URL = 'https://prcwaruqohryngqtvhyr.supabase.co';
-const SUPABASE_PLACEHOLDER_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InByY3dhcnVxb2hyeW5ncXR2aHlyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTgyNTQyMjYsImV4cCI6MjA3MzgzMDIyNn0.1WjpudP4rYh23UsVeH9Wv0MB5ykCAvZuVtIparwvjjo';
-
 const SUPABASE_CONFIG = {
     url: typeof window !== 'undefined' ? (window.SUPABASE_URL || '').trim() : '',
     anonKey: typeof window !== 'undefined' ? (window.SUPABASE_ANON_KEY || '').trim() : ''
@@ -2158,6 +2155,7 @@ window.showSection = showSection;
 window.removeImage = removeImage;
 
 console.log('MetaAds AI Creator loaded successfully');
+
 
 
 
